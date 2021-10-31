@@ -4,7 +4,7 @@ import react.*
 import react.dom.p
 
 @JsExport
-class VideoList : RComponent<VideoListProps, VideoListState>() {
+class VideoList : RComponent<VideoListProps, RState>() {
     override fun RBuilder.render() {
         for (video in props.videos){
             p {
@@ -16,12 +16,10 @@ class VideoList : RComponent<VideoListProps, VideoListState>() {
                     // optimize rendering performance, consider storing your functions in a variable and
                     // passing them.
                     onClickFunction = {
-                        setState {
-                            selectedVideo = video
-                        }
+                        props.onSelectedVideo(video)
                     }
                 }
-                if (video == state.selectedVideo){
+                if (video == props.selectedVideo){
                     +"▶ "
                 }
                 +"${video.speaker}: ${video.title}"
@@ -32,8 +30,6 @@ class VideoList : RComponent<VideoListProps, VideoListState>() {
 
 external interface VideoListProps: RProps {
     var videos: List<Video>
-}
-
-external interface VideoListState: RState {
     var selectedVideo: Video?
+    var onSelectedVideo: (Video) -> Unit
 }
