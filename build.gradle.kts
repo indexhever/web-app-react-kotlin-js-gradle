@@ -25,7 +25,6 @@ kotlin {
 }
 
 dependencies {
-
     //React, React DOM + Wrappers (chapter 3)
     implementation("org.jetbrains:kotlin-react:17.0.2-pre.154-kotlin-1.5.0")
     implementation("org.jetbrains:kotlin-react-dom:17.0.2-pre.154-kotlin-1.5.0")
@@ -49,4 +48,8 @@ dependencies {
 // Heroku Deployment (chapter 9)
 tasks.register("stage") {
     dependsOn("build")
+}
+
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class.java) {
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().versions.webpackCli.version = "4.9.0"
 }
