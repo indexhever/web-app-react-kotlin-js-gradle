@@ -7,12 +7,12 @@ import react.dom.h3
 class App : RComponent<RProps, AppState>() {
     override fun AppState.init() {
         unwatchedVideos = listOf(
-            KotlinVideo(1, "Building and breaking things", "John Doe", "https://youtu.be/PsaFVLr8t4E"),
+            KotlinVideo(1, "Building and breaking things", "John Doe", "https://www.youtube.com/watch?v=H0bXG02xwvs"),
             KotlinVideo(2, "The development process", "Jane Smith", "https://youtu.be/PsaFVLr8t4E"),
-            KotlinVideo(3, "The Web 7.0", "Matt Miller", "https://youtu.be/PsaFVLr8t4E")
+            KotlinVideo(3, "Why I stopped having kids", "Matt Miller", "https://www.youtube.com/watch?v=J94-bfa6dIM")
         )
         watchedVideos = listOf(
-            KotlinVideo(4, "Mouseless development", "Tom Jerry", "https://youtu.be/PsaFVLr8t4E")
+            KotlinVideo(4, "Greg News", "Gregório", "https://www.youtube.com/watch?v=NTnk59MyD_U")
         )
     }
 
