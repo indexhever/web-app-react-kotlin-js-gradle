@@ -1,3 +1,5 @@
+import kotlinx.browser.window
+import kotlinx.coroutines.*
 import react.*
 import react.dom.div
 import react.dom.h1
@@ -6,14 +8,16 @@ import react.dom.h3
 @JsExport
 class App : RComponent<RProps, AppState>() {
     override fun AppState.init() {
-        unwatchedVideos = listOf(
-            KotlinVideo(1, "Building and breaking things", "John Doe", "https://www.youtube.com/watch?v=H0bXG02xwvs"),
-            KotlinVideo(2, "The development process", "Jane Smith", "https://youtu.be/PsaFVLr8t4E"),
-            KotlinVideo(3, "Why I stopped having kids", "Matt Miller", "https://www.youtube.com/watch?v=J94-bfa6dIM")
-        )
-        watchedVideos = listOf(
-            KotlinVideo(4, "Greg News", "Gregório", "https://www.youtube.com/watch?v=NTnk59MyD_U")
-        )
+        unwatchedVideos = listOf()
+        watchedVideos = listOf()
+
+        val mainScope = MainScope()
+        mainScope.launch {
+            val videos = fetchVideos()
+            setState{
+                unwatchedVideos = videos
+            }
+        }
     }
 
     override fun RBuilder.render() {
@@ -69,6 +73,23 @@ class App : RComponent<RProps, AppState>() {
             }
         }
     }
+}
+
+suspend fun fetchVideos(): List<Video> = coroutineScope {
+    (1..25).map { id ->
+        async {
+            fetchVideo(id)
+        }
+    }.awaitAll()
+}
+
+suspend fun fetchVideo(id: Int): Video {
+    val response = window
+        .fetch("https://my-json-server.typicode.com/kotlin-hands-on/kotlinconf-json/videos/$id")
+        .await()
+        .json()
+        .await()
+    return response as Video
 }
 
 // extension function of  lambdas with receivers implementation
